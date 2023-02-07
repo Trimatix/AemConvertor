@@ -12,16 +12,16 @@ if __name__ == '__main__':
         if not file_in:
             break
         if os.path.exists(file_out):
-            print('Warning:', file_out, 'already exists and will be covered! Press Enter to continue.')
+            print(f'Warning: {file_out} already exists and will be covered! Press Enter to continue.')
             input()
             os.remove(file_out)
         file_aem = open(file_in, 'rb')
         file_obj = open(file_out, 'a')
         file_aem.seek(24)
         v_num = struct.unpack("h", file_aem.read(2))[0]
-        s = '# Vertices ' + str(v_num) + '\n'
+        s = f'# Vertices {v_num}\n'
         file_obj.write(s)
-        print('# Vertices', v_num)
+        print(s)
         file_aem.seek(v_num * 2 + 2, 1)
         v_x = []
         v_y = []
@@ -31,22 +31,22 @@ if __name__ == '__main__':
             v_x.append(float32(struct.unpack("f", file_aem.read(4))[0]))
             v_y.append(float32(struct.unpack("f", file_aem.read(4))[0]))
             v_z.append(float32(struct.unpack("f", file_aem.read(4))[0]))
-            s = 'v  ' + str(v_x[i]) + ' ' + str(v_y[i]) + ' ' + str(v_z[i]) + '\n'
+            s = f'v  {v_x[i]} {v_y[i]} {v_z[i]}\n'
             file_obj.write(s)
-        s = '\n' + '# UVs ' + str(v_num) + '\n'
+        s = f'\n# UVs {v_num}\n'
         file_obj.write(s)
-        print('\n', '# UVs', v_num)
+        print(s)
         vt_x = []
         vt_y = []
         i = 0
         for i in tqdm(range(v_num)):
             vt_x.append(float32(struct.unpack("f", file_aem.read(4))[0]))
             vt_y.append(float32(struct.unpack("f", file_aem.read(4))[0]))
-            s = 'vt  ' + str(vt_x[i]) + ' ' + str(vt_y[i]) + '\n'
+            s = f'vt  {vt_x[i]} {vt_y[i]}\n'
             file_obj.write(s)
-        s = '\n' + '# Normals ' + str(v_num) + '\n'
+        s = f'\n# Normals {v_num}\n'
         file_obj.write(s)
-        print('\n', '# Normals', v_num)
+        print(s)
         vn_x = []
         vn_y = []
         vn_z = []
@@ -54,25 +54,25 @@ if __name__ == '__main__':
             vn_x.append(float32(struct.unpack("f", file_aem.read(4))[0]))
             vn_y.append(float32(struct.unpack("f", file_aem.read(4))[0]))
             vn_z.append(float32(struct.unpack("f", file_aem.read(4))[0]))
-            s = 'vn  ' + str(vn_x[i]) + ' ' + str(vn_y[i]) + ' ' + str(vn_z[i]) + '\n'
+            s = f'vn  {vn_x[i]} {vn_y[i]} {vn_z[i]}\n'
             file_obj.write(s)
-        s = '\n' + '# Faces ' + str(v_num // 3) + '\n'
+        s = f'\n# Faces {v_num // 3}\n'
         file_obj.write(s)
-        print('\n', '# Faces', v_num // 3)
+        print(s)
         for i in tqdm(range(v_num // 3)):
             file_obj.write('f  ')
-            s = str(i * 3 + 1) + '/' + str(i * 3 + 1) + '/' + str(i * 3 + 1)
+            s = f'{i * 3 + 1}/{i * 3 + 1}/{i * 3 + 1}'
             file_obj.write(s)
             file_obj.write(' ')
-            s = str(i * 3 + 2) + '/' + str(i * 3 + 2) + '/' + str(i * 3 + 2)
+            s = f'{i * 3 + 2}/{i * 3 + 2}/{i * 3 + 2}'
             file_obj.write(s)
             file_obj.write(' ')
-            s = str(i * 3 + 3) + '/' + str(i * 3 + 3) + '/' + str(i * 3 + 3)
+            s = f'{i * 3 + 3}/{i * 3 + 3}/{i * 3 + 3}'
             file_obj.write(s)
             file_obj.write('\n')
         file_aem.close()
         file_obj.close()
-        print('\n', 'Done')
+        print('\nDone')
     if option == 2:
         print('Obj2aem is not supported yet, please wait...')
         input()
